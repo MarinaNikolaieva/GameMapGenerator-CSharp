@@ -30,7 +30,7 @@ Heights are mapped to different value interval which is set manually.
 
 Political map generator uses a Flood fill technique to spread each country's territory.
 
-Height map uses Diamond-Square algorithm for scaling. That's why the map MUST be square and the sides size MUST be 2 ^ power + 1 (65, 129, 257, 513 etc.)
+Height map uses Diamond-Square algorithm for scaling. That's why the map MUST be square and the sides size MUST be 2 ^ power + 1 (65, 129, 257, 513 etc.) The size I use is 513 for the result map and 257 for the temporary map for the Height generator. The temporary map will be generated, scaled to the bigger size and get ready for output to other generators.
 
 Biome, Soil and Resource maps (Global and OnGround) generators use Multi-state cellular automata to balance their maps and give them a better look.
 
