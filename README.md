@@ -41,12 +41,13 @@ Most, if not all the input data is stored inside Excel sheets to be more compact
 # Output example
 Inside output of the most complex test, there will be: 16 pictures (Height map, two Temperature maps (basic and final - the latter includes height impact), Moisture map, Biome map, Soil map, Global resources map, OnGround resources map, all UnderGround resource maps, Political map) and 1 txt file with MapPart objects.
 
-The example of a full test (without txt file) follows. My advice is to read the xlsx files (DataFiles folder) first and to use the color picker (I use this one: https://colorpicker.me) to understand all color codes (I didn't make legends for all maps, only for some of them)
+The example of a full test (without txt file) follows. My advice is to read the xlsx files (DataFiles folder) first and to use the color picker (I use this one: https://colorpicker.me) to understand all color codes (I didn't make legends for all maps, only for some of them. I recommend to open rtf files in WordPad, not in Microsoft Word, to see all the colors better)
 
 # Height map
 ![HTMBSRP-H1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/5eda12a2-b74d-4589-8a7b-26998491f4ad)
 # Temperature maps (basic - final)
 ![HTMBSRP-TB1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/54fb14f6-e9a2-4953-9874-cfe99c47b74a)
+
 ![HTMBSRP-TF1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/7f89c10f-ce89-4428-a533-890a4dbe2e2b)
 # Moisture map
 ![HTMBSRP-M1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/debf1a1b-cd20-44a1-95a8-98419a4e576b)
@@ -60,11 +61,17 @@ The example of a full test (without txt file) follows. My advice is to read the 
 ![HTMBSRP-RO-1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/b7a8eac1-74c5-4b90-bd4a-a97eacd2be2b)
 # UnderGround resources maps
 ![HTMBSRP-RU1-1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/9a925608-47bd-4e75-a474-6c308fc88f91)
+
 ![HTMBSRP-RU2-1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/115e8a95-27e4-4566-bf49-e26dfa1ee1a1)
+
 ![HTMBSRP-RU3-1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/650c80fb-db9a-4a94-b515-94064a720629)
+
 ![HTMBSRP-RU4-1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/5808c5f4-0d04-47aa-813c-09f3e76bd04b)
+
 ![HTMBSRP-RU5-1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/6332d836-2475-4be3-bdd1-753d8b63cca9)
+
 ![HTMBSRP-RU6-1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/8ee401d6-6a20-434b-86a9-d805bf123f79)
+
 ![HTMBSRP-RU7-1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/93dfb85f-dbe2-4c75-b7ea-799a465d808d)
 # Political map
 ![HTMBSRP-P1](https://github.com/MarinaNikolaieva/GameMapGenerator-CSharp/assets/60624855/bcfe78db-3413-46ca-bda3-e0b23151dde1)
