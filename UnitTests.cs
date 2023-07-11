@@ -1,9 +1,9 @@
+using MapGeneration;
 using MapGeneration.Generators;
 using MapGeneration.Readers;
 using MapGeneration.Utility;
 using Newtonsoft.Json;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 
 namespace UnitTests
 {
@@ -1452,18 +1452,18 @@ namespace UnitTests
             mapPart.X = 1;
             mapPart.Y = 2;
             mapPart.Height = 530;
-            mapPart.TemperatureFinal = new TemperatureObject("Neutral", Color.Green);
-            mapPart.TemperatureBasic = new TemperatureObject("Cold", Color.LightBlue);
-            mapPart.Moisture = new MoistureObject("Neutral", Color.Yellow);
-            mapPart.Biome = new Biome("Forest", Color.DarkGreen);
+            mapPart.TemperatureFinal = new TemperatureObject("Neutral", System.Drawing.Color.Green);
+            mapPart.TemperatureBasic = new TemperatureObject("Cold", System.Drawing.Color.LightBlue);
+            mapPart.Moisture = new MoistureObject("Neutral", System.Drawing.Color.Yellow);
+            mapPart.Biome = new Biome("Forest", System.Drawing.Color.DarkGreen);
             mapPart.NoHeightSpecific = false;
-            mapPart.Soil = new Soil("BlackSoil", Color.Black);
+            mapPart.Soil = new Soil("BlackSoil", System.Drawing.Color.Black);
             mapPart.Resources = new List<IResource>
             {
-                new BasicResource(0, "Res1", Color.Red, "Q1"),
-                new BasicResource(1, "Res2", Color.Orange, "Q1")
+                new BasicResource(0, "Res1", System.Drawing.Color.Red, "Q1"),
+                new BasicResource(1, "Res2", System.Drawing.Color.Orange, "Q1")
             };
-            CountryBase country = new CountryBase("CountryA", Color.Red);
+            CountryBase country = new CountryBase("CountryA", System.Drawing.Color.Red);
             mapPart.Country = country;
             country.Capital = new System.Numerics.Vector2(32, 32);
 
@@ -1479,7 +1479,7 @@ namespace UnitTests
         public void JSONConvertMultipleMapPartsTest()
         {
             MapPart[,] complexMap = new MapPart[3, 3];
-            CountryBase country = new CountryBase("CountryA", Color.Red);
+            CountryBase country = new CountryBase("CountryA", System.Drawing.Color.Red);
             int counter = 0;
             for (int i = 0; i < 3; i++)
             {
@@ -1539,8 +1539,8 @@ namespace UnitTests
         [TestMethod]
         public void CountriesOutputTest()
         {
-            CountryBase countryA = new CountryBase("CountryA", Color.Red);
-            CountryBase countryB = new CountryBase("CountryB", Color.Orange);
+            CountryBase countryA = new CountryBase("CountryA", System.Drawing.Color.Red);
+            CountryBase countryB = new CountryBase("CountryB", System.Drawing.Color.Orange);
             
             countryA.Capital = new System.Numerics.Vector2(0, 1);
             countryB.Capital = new System.Numerics.Vector2(2, 2);
@@ -1551,6 +1551,75 @@ namespace UnitTests
             streamWriter.WriteLine(countryA.Output());
             streamWriter.WriteLine(countryB.Output());
             Assert.IsNotNull(countryA);
+        }
+
+        [TestMethod]
+        public void CountriesTsvOutputTest()
+        {
+            CountryReader countryReader = new CountryReader(folderPath);
+            countryReader.readCountriesXlsx();
+            HeightReader heightReader = new HeightReader(folderPath);
+            heightReader.readHeightsXlsx();
+
+            int size = 1025;
+            int smallSize = 257;
+            int minVal = -15000;
+            int maxVal = 10000;
+            int range = maxVal - minVal;
+
+            int[,] map = new int[size, size];
+            MapPart[,] complexMap = new MapPart[size, size];
+            int counter = 0;
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    complexMap[i, j] = new MapPart(counter);
+                    complexMap[i, j].X = j;
+                    complexMap[i, j].Y = i;
+                    counter++;
+                }
+            }
+
+            HeightMapNoiseGenerator heightMapGenerator = new HeightMapNoiseGenerator(smallSize, smallSize, size);
+            heightMapGenerator.ChangeOctaves(5);
+            Bitmap image = heightMapGenerator.RunGenerationColorNoWeightsScaleBalance(map, heightReader, minVal, maxVal);
+            heightMapGenerator.MakeMapParts(map, complexMap);
+
+            //Neighbors by 4 directions!
+            for (int i = 0; i < size; i++)  //Y coord
+            {
+                for (int j = 0; j < size; j++)  //X coord
+                {
+                    if (i != 0)
+                    {
+                        complexMap[i, j].neighbors.Add(complexMap[i - 1, j]);
+                        complexMap[i, j].neighborIDs.Add(complexMap[i - 1, j].ID);
+                    }
+                    if (j != 0)
+                    {
+                        complexMap[i, j].neighbors.Add(complexMap[i, j - 1]);
+                        complexMap[i, j].neighborIDs.Add(complexMap[i, j - 1].ID);
+                    }
+                    if (i != size - 1)
+                    {
+                        complexMap[i, j].neighbors.Add(complexMap[i + 1, j]);
+                        complexMap[i, j].neighborIDs.Add(complexMap[i + 1, j].ID);
+                    }
+                    if (j != size - 1)
+                    {
+                        complexMap[i, j].neighbors.Add(complexMap[i, j + 1]);
+                        complexMap[i, j].neighborIDs.Add(complexMap[i, j + 1].ID);
+                    }
+                }
+            }
+
+            PoliticalMapGenerator politicalMapGenerator = new PoliticalMapGenerator(countryReader, complexMap, size);
+            politicalMapGenerator.RunGeneration();
+
+            CountryWriter countryWriter = new CountryWriter(folderPath, countryReader.GetCountries());
+            countryWriter.Run();
+            Assert.IsNotNull(countryWriter);
         }
     }
 }
